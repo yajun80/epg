@@ -336,5 +336,3 @@ func fetchMigu(programID, date string) ([]Programme, error) {
         if title == "" {
             return true
         }
-
-        
