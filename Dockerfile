@@ -2,18 +2,12 @@ FROM golang:1.21-alpine
 
 WORKDIR /app
 
-# 复制依赖文件
-COPY go.mod ./
-RUN go mod download
+# 复制所有文件
+COPY . .
 
-# 复制源码
-COPY main.go .
+# 下载依赖并编译
+RUN go mod tidy && go build -o epg-server
 
-# 编译
-RUN go build -o epg-server
-
-# 暴露端口
 EXPOSE 8080
 
-# 运行
 CMD ["./epg-server"]
