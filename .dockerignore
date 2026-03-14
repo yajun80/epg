@@ -1,44 +1,23 @@
-# Git
-.git
-.gitignore
-.gitattributes
-.github
-
-# IDE
-.vscode
-.idea
-*.swp
-*.swo
-*~
-
-# Testing
-coverage.txt
-*.test
-*.prof
-test/
-
-# Docker
-Dockerfile
-.dockerignore
-docker-compose*.yml
-
-# 本地开发文件
-*.log
-tmp/
-data/
-cache/*
-!cache/.gitkeep
-
-# 二进制文件
+# Go编译产物
 epg-server
-epg-server.exe
+*.exe
+*.dll
+*.so
+*.dylib
 
-# 环境变量
-.env
-.env.*
-!.env.example
+# 依赖缓存
+go/pkg/
+vendor/
 
-# 文档
+# 开发文件
+.git/
+.gitignore
 README.md
-LICENSE
-docs/
+*.log
+.vscode/
+.idea/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
