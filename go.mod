@@ -1,4 +1,4 @@
-module epg-server
+module github.com/yajun80/epg
 
 go 1.21
 
