@@ -1,23 +1,29 @@
-# 多阶段构建：减小镜像体积
-FROM golang:1.22-alpine AS builder
+FROM golang:1.21-alpine AS builder
+
+# 设置国内代理
+ENV GOPROXY=https://goproxy.cn,direct
+ENV GOSUMDB=sum.golang.google.cn
+
+# 安装 git（部分依赖需要拉取 git 仓库）
+RUN apk add --no-cache git
 
 WORKDIR /app
+
+# 复制依赖文件
 COPY go.mod go.sum ./
 RUN go mod download
 
+# 复制源码并编译
 COPY . .
-# 编译 Linux amd64 架构的二进制文件
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o epg-server main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o epg-server main.go
 
-# 运行阶段
-FROM alpine:3.19
+# 构建最小运行镜像
+FROM alpine:3.18
 WORKDIR /app
-# 从构建阶段复制编译产物
 COPY --from=builder /app/epg-server .
 
-EXPOSE 8080
-# 使用非 root 用户运行 (安全最佳实践)
-RUN adduser -D appuser
-USER appuser
+# 暴露服务端口（根据你的实际端口修改）
+EXPOSE 12345
 
-ENTRYPOINT ["./epg-server"]
+# 启动服务
+CMD ["./epg-server"]
