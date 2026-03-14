@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=builder /app/epg-server .
 
 # 暴露服务端口（根据你的实际端口修改）
-EXPOSE 12345
+EXPOSE 8082
 
 # 启动服务
 CMD ["./epg-server"]
